@@ -1,5 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
+import { useTheme } from "./ThemeProvider";
 
 const projects = [
   {
@@ -42,10 +43,12 @@ const projects = [
 ];
 
 export default function Projects() {
+  const { theme } = useTheme();
+  const isCircuit = theme === "circuit";
+
   return (
     <section id="projects" className="py-28 relative z-10">
       <div className="container mx-auto px-6 md:px-12">
-        {/* Section header */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -53,17 +56,29 @@ export default function Projects() {
           transition={{ duration: 0.6 }}
           className="mb-16"
         >
-          <h2 className="font-[family-name:var(--font-mono)] text-xs tracking-[0.3em] uppercase text-[var(--color-text-muted)] mb-3">
-            <span className="text-[var(--color-accent)]">02</span> // Projects
+          <h2
+            className={`text-xs tracking-[0.3em] uppercase mb-3 ${
+              isCircuit
+                ? "font-[family-name:var(--font-mono)] text-[var(--color-text-muted)]"
+                : "font-[family-name:var(--font-body-noto)] text-[var(--color-text-muted)] font-medium"
+            }`}
+          >
+            <span className="text-[var(--color-accent)]">02</span>{" "}
+            {isCircuit ? "// Projects" : "— Projects"}
           </h2>
-          <h3 className="text-3xl md:text-4xl font-light text-[var(--color-text-primary)]">
+          <h3
+            className={`text-3xl md:text-4xl font-light text-[var(--color-text-primary)] ${
+              !isCircuit ? "font-[family-name:var(--font-display-sora)]" : ""
+            }`}
+          >
             Engineered{" "}
-            <span className="font-bold text-[var(--color-trace)]">Systems</span>
+            <span className={`font-bold ${isCircuit ? "text-[var(--color-trace)]" : "text-[var(--color-accent)]"}`}>
+              Systems
+            </span>
             .
           </h3>
         </motion.div>
 
-        {/* Schematic cards */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {projects.map((project, idx) => (
             <motion.div
@@ -75,47 +90,85 @@ export default function Projects() {
               whileHover={{ y: -6 }}
               className="relative group flex flex-col h-full"
             >
-              {/* IC chip schematic card */}
-              <div className="relative border border-dashed border-[var(--color-border)] hover:border-[var(--color-border-bright)] p-6 bg-[rgba(26,31,18,0.5)] transition-all duration-300 flex flex-col h-full">
-                {/* Corner pins */}
-                <div className="absolute -top-1 -left-1 w-2 h-2 border border-[var(--color-trace)] bg-[var(--color-bg-base)]" />
-                <div className="absolute -top-1 -right-1 w-2 h-2 border border-[var(--color-trace)] bg-[var(--color-bg-base)]" />
-                <div className="absolute -bottom-1 -left-1 w-2 h-2 border border-[var(--color-trace)] bg-[var(--color-bg-base)]" />
-                <div className="absolute -bottom-1 -right-1 w-2 h-2 border border-[var(--color-trace)] bg-[var(--color-bg-base)]" />
+              <div
+                className={`relative p-6 transition-all duration-300 flex flex-col h-full ${
+                  isCircuit
+                    ? "border border-dashed border-[var(--color-border)] hover:border-[var(--color-border-bright)] bg-[rgba(26,31,18,0.5)]"
+                    : "border border-[var(--color-border)] hover:border-[var(--color-border-bright)] bg-white rounded-2xl shadow-[0_2px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)]"
+                }`}
+              >
+                {/* Corner pins — circuit only */}
+                {isCircuit && (
+                  <>
+                    <div className="absolute -top-1 -left-1 w-2 h-2 border border-[var(--color-trace)] bg-[var(--color-bg-base)]" />
+                    <div className="absolute -top-1 -right-1 w-2 h-2 border border-[var(--color-trace)] bg-[var(--color-bg-base)]" />
+                    <div className="absolute -bottom-1 -left-1 w-2 h-2 border border-[var(--color-trace)] bg-[var(--color-bg-base)]" />
+                    <div className="absolute -bottom-1 -right-1 w-2 h-2 border border-[var(--color-trace)] bg-[var(--color-bg-base)]" />
+                  </>
+                )}
 
-                {/* Component ID label */}
+                {/* ID + Tag */}
                 <div className="flex items-center justify-between mb-4">
-                  <span className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--color-text-muted)] border border-[var(--color-border)] px-2 py-0.5">
-                    [{project.id}]
-                  </span>
-                  <span className="font-[family-name:var(--font-mono)] text-[10px] tracking-wider text-[var(--color-accent)] uppercase">
+                  {isCircuit ? (
+                    <span className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--color-text-muted)] border border-[var(--color-border)] px-2 py-0.5">
+                      [{project.id}]
+                    </span>
+                  ) : (
+                    <span className="text-[10px] font-[family-name:var(--font-body-noto)] tracking-wider text-[var(--color-text-muted)] font-semibold uppercase">
+                      {String(idx + 1).padStart(2, "0")}
+                    </span>
+                  )}
+                  <span
+                    className={`text-[10px] tracking-wider uppercase ${
+                      isCircuit
+                        ? "font-[family-name:var(--font-mono)] text-[var(--color-accent)]"
+                        : "font-[family-name:var(--font-body-noto)] text-[var(--color-accent)] font-semibold"
+                    }`}
+                  >
                     {project.tag}
                   </span>
                 </div>
 
-                {/* Title */}
-                <h4 className="text-lg font-semibold mb-3 text-[var(--color-text-primary)] group-hover:text-[var(--color-trace)] transition-colors leading-snug">
+                <h4
+                  className={`text-lg font-semibold mb-3 leading-snug transition-colors ${
+                    isCircuit
+                      ? "text-[var(--color-text-primary)] group-hover:text-[var(--color-trace)]"
+                      : "text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] font-[family-name:var(--font-display-sora)]"
+                  }`}
+                >
                   {project.title}
                 </h4>
 
-                {/* Desc */}
                 <p className="text-sm text-[var(--color-text-secondary)] mb-6 leading-relaxed font-light flex-grow">
                   {project.description}
                 </p>
 
-                {/* Features — BOM style */}
                 <div className="border-t border-[var(--color-border)] pt-4 mt-auto">
-                  <span className="font-[family-name:var(--font-mono)] text-[9px] tracking-[0.3em] uppercase text-[var(--color-text-muted)] block mb-3">
+                  <span
+                    className={`text-[9px] tracking-[0.3em] uppercase block mb-3 ${
+                      isCircuit
+                        ? "font-[family-name:var(--font-mono)] text-[var(--color-text-muted)]"
+                        : "font-[family-name:var(--font-body-noto)] text-[var(--color-text-muted)] font-semibold"
+                    }`}
+                  >
                     Features
                   </span>
                   <ul className="space-y-2">
                     {project.features.map((feat, fIdx) => (
                       <li
                         key={fIdx}
-                        className="flex items-start text-xs text-[var(--color-text-secondary)] font-[family-name:var(--font-mono)]"
+                        className={`flex items-start text-xs text-[var(--color-text-secondary)] ${
+                          isCircuit ? "font-[family-name:var(--font-mono)]" : ""
+                        }`}
                       >
-                        <span className="text-[var(--color-trace)] mr-2 mt-0.5 shrink-0">
-                          ├─
+                        <span
+                          className={`mr-2 mt-0.5 shrink-0 ${
+                            isCircuit
+                              ? "text-[var(--color-trace)]"
+                              : "text-[var(--color-accent)]"
+                          }`}
+                        >
+                          {isCircuit ? "├─" : "·"}
                         </span>
                         <span className="group-hover:text-[var(--color-text-primary)] transition-colors">
                           {feat}

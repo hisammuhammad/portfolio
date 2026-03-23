@@ -1,7 +1,12 @@
 "use client";
 import { motion } from "framer-motion";
+import { useTheme } from "./ThemeProvider";
 
 export default function CircuitBackground() {
+  const { theme } = useTheme();
+
+  if (theme === "whiteout") return null;
+
   return (
     <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden opacity-40">
       <svg
@@ -10,7 +15,6 @@ export default function CircuitBackground() {
         className="w-full h-full"
         preserveAspectRatio="xMidYMid slice"
       >
-        {/* Horizontal traces */}
         <motion.path
           d="M0 200 H300 L320 180 H500 L520 200 H800"
           stroke="rgba(74, 222, 128, 0.2)"
@@ -38,8 +42,6 @@ export default function CircuitBackground() {
           animate={{ strokeDashoffset: 0 }}
           transition={{ duration: 4, ease: "easeOut", delay: 1 }}
         />
-
-        {/* Vertical traces */}
         <motion.path
           d="M300 0 V150 L280 170 V350"
           stroke="rgba(74, 222, 128, 0.15)"
@@ -67,19 +69,9 @@ export default function CircuitBackground() {
           animate={{ strokeDashoffset: 0 }}
           transition={{ duration: 2.8, ease: "easeOut", delay: 1.2 }}
         />
-
-        {/* Junction nodes */}
         {[
-          [300, 200],
-          [520, 200],
-          [620, 380],
-          [920, 400],
-          [220, 580],
-          [470, 600],
-          [720, 620],
-          [280, 170],
-          [820, 320],
-          [800, 520],
+          [300, 200], [520, 200], [620, 380], [920, 400], [220, 580],
+          [470, 600], [720, 620], [280, 170], [820, 320], [800, 520],
         ].map(([cx, cy], i) => (
           <motion.circle
             key={i}
@@ -92,12 +84,8 @@ export default function CircuitBackground() {
             transition={{ duration: 0.4, delay: 1.5 + i * 0.15 }}
           />
         ))}
-
-        {/* IC pads */}
         {[
-          [500, 180],
-          [900, 380],
-          [700, 600],
+          [500, 180], [900, 380], [700, 600],
         ].map(([x, y], i) => (
           <motion.rect
             key={`pad-${i}`}

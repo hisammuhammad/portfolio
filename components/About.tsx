@@ -1,5 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
+import { useTheme } from "./ThemeProvider";
 
 const systemSpecs = [
   { key: "DESIGNATION", value: "IoT & Embedded Systems Engineer" },
@@ -9,6 +10,9 @@ const systemSpecs = [
 ];
 
 export default function About() {
+  const { theme } = useTheme();
+  const isCircuit = theme === "circuit";
+
   return (
     <section id="about" className="py-28 relative">
       <div className="container mx-auto px-6 md:px-12">
@@ -20,20 +24,31 @@ export default function About() {
           transition={{ duration: 0.6 }}
           className="mb-16"
         >
-          <h2 className="font-[family-name:var(--font-mono)] text-xs tracking-[0.3em] uppercase text-[var(--color-text-muted)] mb-3">
-            <span className="text-[var(--color-accent)]">01</span> // About
+          <h2
+            className={`text-xs tracking-[0.3em] uppercase mb-3 ${
+              isCircuit
+                ? "font-[family-name:var(--font-mono)] text-[var(--color-text-muted)]"
+                : "font-[family-name:var(--font-body-noto)] text-[var(--color-text-muted)] font-medium"
+            }`}
+          >
+            <span className="text-[var(--color-accent)]">01</span>{" "}
+            {isCircuit ? "// About" : "— About"}
           </h2>
-          <h3 className="text-3xl md:text-4xl font-light text-[var(--color-text-primary)]">
-            System{" "}
-            <span className="font-bold text-[var(--color-trace)]">
-              Specification
+          <h3
+            className={`text-3xl md:text-4xl font-light text-[var(--color-text-primary)] ${
+              isCircuit ? "" : "font-[family-name:var(--font-display-sora)]"
+            }`}
+          >
+            {isCircuit ? "System " : "About "}
+            <span className={`font-bold ${isCircuit ? "text-[var(--color-trace)]" : "text-[var(--color-accent)]"}`}>
+              {isCircuit ? "Specification" : "Me"}
             </span>
             .
           </h3>
         </motion.div>
 
         <div className="grid lg:grid-cols-12 gap-12 items-start">
-          {/* Profile image + system spec card */}
+          {/* Image + spec card */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -41,57 +56,75 @@ export default function About() {
             transition={{ duration: 0.8 }}
             className="lg:col-span-5 space-y-6"
           >
-            {/* Image with green channel duotone feel */}
             <div className="relative">
-              <div className="absolute -inset-1 border border-dashed border-[var(--color-border)] pointer-events-none" />
-              <div className="p-1 border border-[var(--color-border-bright)] relative overflow-hidden group">
+              {isCircuit && (
+                <div className="absolute -inset-1 border border-dashed border-[var(--color-border)] pointer-events-none" />
+              )}
+              <div
+                className={`overflow-hidden group ${
+                  isCircuit
+                    ? "p-1 border border-[var(--color-border-bright)] relative"
+                    : "rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.08)] relative"
+                }`}
+              >
                 <img
                   src="/profile.jpg"
                   alt="Hisam Muhammad Ameen"
-                  className="w-full h-auto object-cover grayscale brightness-110 contrast-110 group-hover:grayscale-0 transition-all duration-700"
+                  className={`w-full h-auto object-cover transition-all duration-700 ${
+                    isCircuit
+                      ? "grayscale brightness-110 contrast-110 group-hover:grayscale-0"
+                      : "rounded-2xl"
+                  }`}
                 />
-                {/* Scanline effect on image */}
-                <div className="absolute inset-0 bg-[var(--color-trace)] mix-blend-multiply opacity-20 group-hover:opacity-0 transition-opacity duration-700 pointer-events-none" />
+                {isCircuit && (
+                  <div className="absolute inset-0 bg-[var(--color-trace)] mix-blend-multiply opacity-20 group-hover:opacity-0 transition-opacity duration-700 pointer-events-none" />
+                )}
               </div>
-              {/* Corner markers */}
-              <div className="absolute -top-2 -left-2 w-4 h-4 border-t border-l border-[var(--color-trace)]" />
-              <div className="absolute -top-2 -right-2 w-4 h-4 border-t border-r border-[var(--color-trace)]" />
-              <div className="absolute -bottom-2 -left-2 w-4 h-4 border-b border-l border-[var(--color-trace)]" />
-              <div className="absolute -bottom-2 -right-2 w-4 h-4 border-b border-r border-[var(--color-trace)]" />
+              {/* Corner markers — circuit only */}
+              {isCircuit && (
+                <>
+                  <div className="absolute -top-2 -left-2 w-4 h-4 border-t border-l border-[var(--color-trace)]" />
+                  <div className="absolute -top-2 -right-2 w-4 h-4 border-t border-r border-[var(--color-trace)]" />
+                  <div className="absolute -bottom-2 -left-2 w-4 h-4 border-b border-l border-[var(--color-trace)]" />
+                  <div className="absolute -bottom-2 -right-2 w-4 h-4 border-b border-r border-[var(--color-trace)]" />
+                </>
+              )}
             </div>
 
-            {/* System spec card — datasheet style */}
-            <div className="border border-[var(--color-border)] bg-[rgba(26,31,18,0.6)]">
-              <div className="border-b border-[var(--color-border)] px-4 py-2">
-                <span className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.3em] uppercase text-[var(--color-text-muted)]">
-                  SYS_INFO.cfg
-                </span>
-              </div>
-              <div className="p-4 space-y-2">
-                {systemSpecs.map((spec) => (
-                  <div
-                    key={spec.key}
-                    className="flex items-start font-[family-name:var(--font-mono)] text-xs"
-                  >
-                    <span className="text-[var(--color-text-muted)] w-32 shrink-0">
-                      {spec.key}:
-                    </span>
-                    <span
-                      className={
-                        spec.highlight
-                          ? "text-[var(--color-trace)]"
-                          : "text-[var(--color-text-secondary)]"
-                      }
+            {/* Spec card — circuit only */}
+            {isCircuit && (
+              <div className="border border-[var(--color-border)] bg-[rgba(26,31,18,0.6)]">
+                <div className="border-b border-[var(--color-border)] px-4 py-2">
+                  <span className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.3em] uppercase text-[var(--color-text-muted)]">
+                    SYS_INFO.cfg
+                  </span>
+                </div>
+                <div className="p-4 space-y-2">
+                  {systemSpecs.map((spec) => (
+                    <div
+                      key={spec.key}
+                      className="flex items-start font-[family-name:var(--font-mono)] text-xs"
                     >
-                      {spec.value}
-                    </span>
-                  </div>
-                ))}
+                      <span className="text-[var(--color-text-muted)] w-32 shrink-0">
+                        {spec.key}:
+                      </span>
+                      <span
+                        className={
+                          spec.highlight
+                            ? "text-[var(--color-trace)]"
+                            : "text-[var(--color-text-secondary)]"
+                        }
+                      >
+                        {spec.value}
+                      </span>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
           </motion.div>
 
-          {/* About text */}
+          {/* Text */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -99,7 +132,11 @@ export default function About() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="lg:col-span-7 space-y-6"
           >
-            <div className="text-base md:text-lg font-light leading-relaxed text-[var(--color-text-secondary)] space-y-5">
+            <div
+              className={`text-base md:text-lg font-light leading-relaxed text-[var(--color-text-secondary)] space-y-5 ${
+                !isCircuit ? "font-[family-name:var(--font-body-noto)]" : ""
+              }`}
+            >
               <p>
                 I am an IoT and Embedded Systems Engineer focused on building
                 intelligent, real-world systems that integrate{" "}
@@ -124,10 +161,15 @@ export default function About() {
               </p>
             </div>
 
-            {/* Status line */}
             <div className="pt-4 border-t border-[var(--color-border)]">
-              <p className="font-[family-name:var(--font-mono)] text-sm text-[var(--color-accent)] flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-accent)] animate-pulse" />
+              <p
+                className={`text-sm flex items-center gap-2 ${
+                  isCircuit
+                    ? "font-[family-name:var(--font-mono)] text-[var(--color-accent)]"
+                    : "font-[family-name:var(--font-body-noto)] text-[var(--color-accent)] font-medium"
+                }`}
+              >
+                <span className={`w-1.5 h-1.5 rounded-full bg-[var(--color-accent)] ${isCircuit ? "animate-pulse" : ""}`} />
                 Currently building the foundation — engineering the future of
                 intelligent systems.
               </p>

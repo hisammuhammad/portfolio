@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import { ExternalLink } from "lucide-react";
+import { useTheme } from "./ThemeProvider";
 
 const certs = [
   {
@@ -21,31 +22,42 @@ const certs = [
 ];
 
 export default function Certifications() {
+  const { theme } = useTheme();
+  const isCircuit = theme === "circuit";
+
   return (
     <section id="certifications" className="py-20 relative z-10">
       <div className="container mx-auto px-6 md:px-12">
         <div className="grid md:grid-cols-2 gap-12 lg:items-start">
-          {/* Header */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="font-[family-name:var(--font-mono)] text-xs tracking-[0.3em] uppercase text-[var(--color-text-muted)] mb-3">
-              <span className="text-[var(--color-accent)]">04</span> //
-              Certifications
+            <h2
+              className={`text-xs tracking-[0.3em] uppercase mb-3 ${
+                isCircuit
+                  ? "font-[family-name:var(--font-mono)] text-[var(--color-text-muted)]"
+                  : "font-[family-name:var(--font-body-noto)] text-[var(--color-text-muted)] font-medium"
+              }`}
+            >
+              <span className="text-[var(--color-accent)]">04</span>{" "}
+              {isCircuit ? "// Certifications" : "— Certifications"}
             </h2>
-            <h3 className="text-3xl md:text-4xl font-light text-[var(--color-text-primary)]">
+            <h3
+              className={`text-3xl md:text-4xl font-light text-[var(--color-text-primary)] ${
+                !isCircuit ? "font-[family-name:var(--font-display-sora)]" : ""
+              }`}
+            >
               Verified{" "}
-              <span className="font-bold text-[var(--color-trace)]">
+              <span className={`font-bold ${isCircuit ? "text-[var(--color-trace)]" : "text-[var(--color-accent)]"}`}>
                 Credentials
               </span>
               .
             </h3>
           </motion.div>
 
-          {/* Cert entries */}
           <div className="space-y-3">
             {certs.map((cert, idx) => (
               <motion.a
@@ -57,17 +69,29 @@ export default function Certifications() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="group flex items-center justify-between p-4 border border-[var(--color-border)] hover:border-[var(--color-border-bright)] hover:bg-[var(--color-trace-dim)] transition-all"
+                className={`group flex items-center justify-between p-4 transition-all ${
+                  isCircuit
+                    ? "border border-[var(--color-border)] hover:border-[var(--color-border-bright)] hover:bg-[var(--color-trace-dim)]"
+                    : "border border-[var(--color-border)] hover:border-[var(--color-border-bright)] rounded-xl hover:bg-[var(--color-bg-elevated)]"
+                }`}
               >
                 <div className="flex items-start gap-3">
-                  <span className="font-[family-name:var(--font-mono)] text-[10px] text-[var(--color-text-muted)] mt-1 shrink-0">
-                    ├─
-                  </span>
+                  {isCircuit && (
+                    <span className="font-[family-name:var(--font-mono)] text-[10px] text-[var(--color-text-muted)] mt-1 shrink-0">
+                      ├─
+                    </span>
+                  )}
                   <div>
-                    <span className="text-sm font-medium text-[var(--color-text-primary)] group-hover:text-[var(--color-trace)] transition-colors block">
+                    <span className={`text-sm font-medium block transition-colors ${
+                      isCircuit
+                        ? "text-[var(--color-text-primary)] group-hover:text-[var(--color-trace)]"
+                        : "text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] font-[family-name:var(--font-display-sora)]"
+                    }`}>
                       {cert.name}
                     </span>
-                    <span className="font-[family-name:var(--font-mono)] text-xs text-[var(--color-text-muted)]">
+                    <span className={`text-xs text-[var(--color-text-muted)] ${
+                      isCircuit ? "font-[family-name:var(--font-mono)]" : ""
+                    }`}>
                       {cert.issuer}
                     </span>
                   </div>
