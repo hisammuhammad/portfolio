@@ -5,8 +5,12 @@
    Circuit Board (default) + Whiteout (light)
    ======================================== */
 
-@theme {
-  /* Circuit Board defaults */
+/* =====================
+   CIRCUIT BOARD — Default
+   ===================== */
+:root {
+  --background: #0d1107;
+  --foreground: #c8d6b0;
   --color-bg-base: #0d1107;
   --color-bg-surface: #1a1f12;
   --color-bg-elevated: #232a18;
@@ -19,35 +23,30 @@
   --color-text-muted: #566040;
   --color-border: rgba(74, 222, 128, 0.15);
   --color-border-bright: rgba(74, 222, 128, 0.35);
-}
-
-/* =====================
-   CIRCUIT BOARD — Default
-   ===================== */
-:root {
-  --background: #0d1107;
-  --foreground: #c8d6b0;
-  --font-display: var(--font-mono);
-  --font-body: var(--font-sans);
   --surface-bg: rgba(26, 31, 18, 0.85);
-  --card-bg: linear-gradient(145deg, rgba(35, 42, 24, 0.9) 0%, rgba(26, 31, 18, 0.7) 100%);
-  --card-border: 1px dashed rgba(74, 222, 128, 0.2);
-  --terminal-bg: rgba(13, 17, 7, 0.8);
-  --terminal-header-bg: rgba(26, 31, 18, 0.6);
+  --surface-bg-solid: #1a1f12;
+  --card-bg: #1d2414;
+  --card-bg-hover: #252d1a;
+  --terminal-bg: #0f1309;
+  --terminal-header-bg: #1a1f12;
   --selection-bg: rgba(255, 107, 43, 0.3);
   --selection-color: #fff;
   --dot-color: rgba(74, 222, 128, 0.08);
   --scrollbar-track: #0d1107;
   --scrollbar-thumb: rgba(74, 222, 128, 0.2);
   --scrollbar-thumb-hover: rgba(74, 222, 128, 0.4);
-  --img-filter: grayscale(100%) brightness(110%) contrast(110%);
-  --img-overlay: rgba(74, 222, 128, 0.2);
+  --nav-bg: rgba(13, 17, 7, 0.92);
+  --overlay-bg: rgba(13, 17, 7, 0.97);
+  --active-glow: 0 0 12px rgba(74, 222, 128, 0.6);
+  --shadow-card: 0 4px 30px rgba(0, 0, 0, 0.4);
+  --shadow-card-hover: 0 8px 40px rgba(0, 0, 0, 0.5);
+  --img-tint: rgba(74, 222, 128, 0.2);
 }
 
 /* =====================
    WHITEOUT — Light Theme
    ===================== */
-.theme-whiteout {
+:root.theme-whiteout {
   --background: #fafaf9;
   --foreground: #27272a;
   --color-bg-base: #fafaf9;
@@ -56,17 +55,16 @@
   --color-accent: #3b82f6;
   --color-accent-dim: rgba(59, 130, 246, 0.1);
   --color-trace: #18181b;
-  --color-trace-dim: rgba(24, 24, 27, 0.05);
+  --color-trace-dim: rgba(24, 24, 27, 0.04);
   --color-text-primary: #18181b;
   --color-text-secondary: #52525b;
   --color-text-muted: #a1a1aa;
   --color-border: rgba(0, 0, 0, 0.08);
-  --color-border-bright: rgba(0, 0, 0, 0.15);
-  --font-display: var(--font-display-sora);
-  --font-body: var(--font-body-noto);
-  --surface-bg: rgba(255, 255, 255, 0.9);
-  --card-bg: linear-gradient(145deg, rgba(255, 255, 255, 1) 0%, rgba(250, 250, 249, 0.9) 100%);
-  --card-border: 1px solid rgba(0, 0, 0, 0.06);
+  --color-border-bright: rgba(0, 0, 0, 0.18);
+  --surface-bg: rgba(255, 255, 255, 0.95);
+  --surface-bg-solid: #ffffff;
+  --card-bg: #ffffff;
+  --card-bg-hover: #f9f9f8;
   --terminal-bg: #ffffff;
   --terminal-header-bg: #f4f4f5;
   --selection-bg: rgba(59, 130, 246, 0.15);
@@ -75,8 +73,12 @@
   --scrollbar-track: #fafaf9;
   --scrollbar-thumb: rgba(0, 0, 0, 0.1);
   --scrollbar-thumb-hover: rgba(0, 0, 0, 0.2);
-  --img-filter: none;
-  --img-overlay: transparent;
+  --nav-bg: rgba(250, 250, 249, 0.92);
+  --overlay-bg: rgba(250, 250, 249, 0.98);
+  --active-glow: none;
+  --shadow-card: 0 2px 20px rgba(0, 0, 0, 0.04);
+  --shadow-card-hover: 0 8px 30px rgba(0, 0, 0, 0.08);
+  --img-tint: transparent;
 }
 
 /* ---- Base Styles ---- */
@@ -102,26 +104,7 @@ body {
   background-size: 24px 24px;
 }
 
-/* ---- Glass utilities ---- */
-@utility glass {
-  background: var(--surface-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--color-border);
-}
-
-@utility glass-card {
-  background: var(--card-bg);
-  backdrop-filter: blur(8px);
-  border: var(--card-border);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
-}
-
 /* ---- Scan Line Overlay ---- */
-@utility scanline {
-  position: relative;
-}
-
 .scanline::after {
   content: '';
   position: absolute;
@@ -138,8 +121,7 @@ body {
   transition: opacity 0.4s ease;
 }
 
-/* Hide scanline in Whiteout */
-.theme-whiteout .scanline::after {
+:root.theme-whiteout .scanline::after {
   opacity: 0;
 }
 
@@ -153,27 +135,18 @@ body {
   animation: blink 1s step-end infinite;
 }
 
-@keyframes trace-draw {
-  from { stroke-dashoffset: 1000; }
-  to { stroke-dashoffset: 0; }
-}
-
-@utility animate-trace {
-  animation: trace-draw 3s ease-out forwards;
-}
-
 @keyframes pulse-glow {
   0%, 100% { box-shadow: 0 0 4px rgba(74, 222, 128, 0.2); }
   50% { box-shadow: 0 0 16px rgba(74, 222, 128, 0.5); }
 }
 
-.theme-whiteout .animate-pulse-glow {
-  animation: none;
-  box-shadow: none;
-}
-
 @utility animate-pulse-glow {
   animation: pulse-glow 3s ease-in-out infinite;
+}
+
+:root.theme-whiteout .animate-pulse-glow {
+  animation: none;
+  box-shadow: none;
 }
 
 @keyframes float {

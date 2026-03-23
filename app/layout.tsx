@@ -46,11 +46,6 @@ export default function RootLayout({
         className={`${jetbrainsMono.variable} ${ibmPlexSans.variable} ${sora.variable} ${notoSans.variable} antialiased bg-[var(--background)] text-[var(--foreground)] dot-grid scanline transition-colors duration-400`}
       >
         <ThemeProvider>
-          {/* Ambient background glows — hidden in whiteout via opacity */}
-          <div className="fixed inset-0 z-[-1] overflow-hidden pointer-events-none theme-whiteout-hide">
-            <div className="absolute top-[10%] left-[5%] w-[30vw] h-[30vw] rounded-full bg-[rgba(74,222,128,0.03)] blur-[120px] animate-float-slow" />
-            <div className="absolute bottom-[5%] right-[10%] w-[25vw] h-[25vw] rounded-full bg-[rgba(255,107,43,0.02)] blur-[100px] animate-float" />
-          </div>
           {children}
         </ThemeProvider>
       </body>
