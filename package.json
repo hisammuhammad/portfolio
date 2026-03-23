@@ -6,7 +6,6 @@
   "dependencies": {
     "clsx": "^2.1.1",
     "framer-motion": "^12.38.0",
-    "lightningcss-win32-x64-msvc": "^1.32.0",
     "lucide-react": "^0.577.0",
     "motion-dom": "^12.38.0",
     "motion-utils": "^12.36.0",
