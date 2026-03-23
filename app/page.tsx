@@ -7,10 +7,12 @@ import Certifications from "@/components/Certifications";
 import Education from "@/components/Education";
 import Vision from "@/components/Vision";
 import Contact from "@/components/Contact";
+import CircuitBackground from "@/components/CircuitBackground";
 
 export default function Home() {
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen relative">
+      <CircuitBackground />
       <Navbar />
       <Hero />
       <About />

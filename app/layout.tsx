@@ -1,12 +1,24 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { JetBrains_Mono, IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
+});
+
+const ibmPlexSans = IBM_Plex_Sans({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-sans",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
-  title: "Hisam Muhammad Ameen - IoT & Embedded Systems Engineer",
-  description: "Futuristic digital CV of Hisam Muhammad Ameen. Designing intelligent, autonomous systems at the intersection of AI, IoT, and embedded technologies.",
+  title: "Hisam Muhammad Ameen — IoT & Embedded Systems Engineer",
+  description:
+    "Portfolio of Hisam Muhammad Ameen. Designing intelligent, autonomous systems at the intersection of AI, IoT, and embedded technologies.",
 };
 
 export default function RootLayout({
@@ -16,11 +28,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark scroll-smooth">
-      <body className={`${inter.variable} font-sans antialiased bg-black text-white selection:bg-indigo-500/30`}>
-        {/* Antigravity background blobs */}
+      <body
+        className={`${jetbrainsMono.variable} ${ibmPlexSans.variable} font-[family-name:var(--font-sans)] antialiased bg-[var(--background)] text-[var(--foreground)] dot-grid scanline`}
+      >
+        {/* Ambient background glows */}
         <div className="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
-          <div className="absolute top-[-10%] left-[-10%] w-[40vw] h-[40vw] rounded-full bg-indigo-900/20 blur-[120px] animate-float-slow" />
-          <div className="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-blue-900/10 blur-[150px] animate-float" />
+          <div className="absolute top-[10%] left-[5%] w-[30vw] h-[30vw] rounded-full bg-[rgba(74,222,128,0.03)] blur-[120px] animate-float-slow" />
+          <div className="absolute bottom-[5%] right-[10%] w-[25vw] h-[25vw] rounded-full bg-[rgba(255,107,43,0.02)] blur-[100px] animate-float" />
         </div>
         {children}
       </body>

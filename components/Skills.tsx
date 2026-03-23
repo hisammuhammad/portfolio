@@ -3,56 +3,134 @@ import { motion } from "framer-motion";
 
 const skillCategories = [
   {
+    id: "U1",
     title: "Programming",
     skills: ["C", "C++", "Embedded C", "Python", "Java"],
   },
   {
+    id: "R1",
     title: "IoT & Embedded",
-    skills: ["ESP32", "Arduino", "Sensor Integration", "Real-Time Systems", "I2C / SPI / UART", "Microcontroller Interfacing"],
+    skills: [
+      "ESP32",
+      "Arduino",
+      "Sensor Integration",
+      "Real-Time Systems",
+      "I2C / SPI / UART",
+      "Microcontroller Interfacing",
+    ],
   },
   {
+    id: "C1",
     title: "Technologies",
-    skills: ["MQTT", "REST APIs", "WebSockets", "Firebase", "Edge Computing", "IoT Architecture"],
+    skills: [
+      "MQTT",
+      "REST APIs",
+      "WebSockets",
+      "Firebase",
+      "Edge Computing",
+      "IoT Architecture",
+    ],
   },
   {
+    id: "Q1",
     title: "Tools & Core",
-    skills: ["Git", "GitHub", "Linux", "Docker", "Blynk IoT", "Problem Solving", "System Design Thinking", "Technical Communication"],
-  }
+    skills: [
+      "Git",
+      "GitHub",
+      "Linux",
+      "Docker",
+      "Blynk IoT",
+      "Problem Solving",
+      "System Design Thinking",
+      "Technical Communication",
+    ],
+  },
 ];
 
 export default function Skills() {
   return (
-    <section id="skills" className="py-32 relative z-10">
+    <section id="skills" className="py-28 relative z-10">
       <div className="container mx-auto px-6 md:px-12">
-        <div className="mb-20 text-center">
-          <h2 className="text-sm tracking-widest uppercase text-white/40 mb-4">03. Capabilities</h2>
-          <h3 className="text-4xl md:text-5xl font-light text-white/90">Technical & Professional <span className="font-semibold text-indigo-400">Toolkit</span>.</h3>
-        </div>
+        {/* Section header */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mb-16"
+        >
+          <h2 className="font-[family-name:var(--font-mono)] text-xs tracking-[0.3em] uppercase text-[var(--color-text-muted)] mb-3">
+            <span className="text-[var(--color-accent)]">03</span> //
+            Capabilities
+          </h2>
+          <h3 className="text-3xl md:text-4xl font-light text-[var(--color-text-primary)]">
+            Bill of{" "}
+            <span className="font-bold text-[var(--color-trace)]">
+              Materials
+            </span>
+            .
+          </h3>
+        </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {/* BOM Table */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="border border-[var(--color-border)] overflow-hidden"
+        >
+          {/* Table header */}
+          <div className="grid grid-cols-[80px_1fr_1fr] md:grid-cols-[100px_200px_1fr] border-b border-[var(--color-border)] bg-[rgba(26,31,18,0.8)]">
+            <div className="px-4 py-3 font-[family-name:var(--font-mono)] text-[10px] tracking-[0.3em] uppercase text-[var(--color-text-muted)] border-r border-[var(--color-border)]">
+              Ref
+            </div>
+            <div className="px-4 py-3 font-[family-name:var(--font-mono)] text-[10px] tracking-[0.3em] uppercase text-[var(--color-text-muted)] border-r border-[var(--color-border)]">
+              Category
+            </div>
+            <div className="px-4 py-3 font-[family-name:var(--font-mono)] text-[10px] tracking-[0.3em] uppercase text-[var(--color-text-muted)]">
+              Components
+            </div>
+          </div>
+
+          {/* Table rows */}
           {skillCategories.map((category, idx) => (
             <motion.div
               key={idx}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, x: -10 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: idx * 0.1 }}
-              className="glass p-8 rounded-2xl border border-white/5 h-full flex flex-col hover:border-indigo-500/30 transition-colors"
+              transition={{ duration: 0.4, delay: idx * 0.1 }}
+              className={`grid grid-cols-[80px_1fr_1fr] md:grid-cols-[100px_200px_1fr] group hover:bg-[var(--color-trace-dim)] transition-colors ${
+                idx < skillCategories.length - 1
+                  ? "border-b border-[var(--color-border)]"
+                  : ""
+              }`}
             >
-              <h4 className="text-lg font-semibold text-white/80 mb-6 pb-4 border-b border-white/10 uppercase tracking-widest text-xs shrink-0">
+              {/* Ref */}
+              <div className="px-4 py-4 font-[family-name:var(--font-mono)] text-xs text-[var(--color-trace)] border-r border-[var(--color-border)] flex items-start">
+                [{category.id}]
+              </div>
+
+              {/* Category */}
+              <div className="px-4 py-4 font-[family-name:var(--font-mono)] text-sm text-[var(--color-text-primary)] font-medium border-r border-[var(--color-border)] flex items-start">
                 {category.title}
-              </h4>
-              <ul className="space-y-4 flex-grow">
+              </div>
+
+              {/* Skills */}
+              <div className="px-4 py-4 flex flex-wrap gap-2">
                 {category.skills.map((skill, sIdx) => (
-                  <li key={sIdx} className="text-white/60 font-light text-sm flex items-start group">
-                    <span className="w-1.5 h-1.5 rounded-full bg-indigo-500/50 group-hover:bg-indigo-400 group-hover:scale-125 transition-all mr-3 mt-1.5 shrink-0"></span>
-                    <span className="group-hover:text-white/90 transition-colors leading-relaxed">{skill}</span>
-                  </li>
+                  <span
+                    key={sIdx}
+                    className="font-[family-name:var(--font-mono)] text-xs px-2.5 py-1 border border-[var(--color-border)] text-[var(--color-text-secondary)] hover:text-[var(--color-trace)] hover:border-[var(--color-border-bright)] transition-colors"
+                  >
+                    {skill}
+                  </span>
                 ))}
-              </ul>
+              </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
