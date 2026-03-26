@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { JetBrains_Mono, IBM_Plex_Sans, Sora, Noto_Sans } from "next/font/google";
 import "./globals.css";
 import ThemeProvider from "@/components/ThemeProvider";
+import FloatingCVButton from "@/components/FloatingCVButton";
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -47,6 +48,7 @@ export default function RootLayout({
       >
         <ThemeProvider>
           {children}
+          <FloatingCVButton />
         </ThemeProvider>
       </body>
     </html>
